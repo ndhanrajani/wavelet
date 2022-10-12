@@ -10,8 +10,12 @@ class Handler implements URLHandler {
 
     public String handleRequest(URI url) {
         System.out.println(url);
-        if (url.getPath().equals("/add")) {
-             String[] parameters = url.getQuery().split("=");
+		if (url.getPath().equals("/")) {
+            
+            return String.format("Current List is %s", String.join(",", list));
+                
+        }else if (url.getPath().equals("/add")) {
+				String[] parameters = url.getQuery().split("=");
                 if (parameters[0].equals("s")) {
                     list.add(parameters[1]);
                     return String.format(" %s is added to the list.", parameters[1]);
@@ -22,11 +26,12 @@ class Handler implements URLHandler {
                 String[] parameters = url.getQuery().split("=");
                 if (parameters[0].equals("s")) {
                    List<String> filteredlist=new  ArrayList<String>();
-                   Iterator<String> it=list.iterator();
-                   while(it.hasNext()) {
-                    if (it.next().contains(parameters[1]))
-                        filteredlist.add(it.next());
-                   }
+                   for (String s: list){
+					   
+					 if(s.contains(parameters[1])){
+						filteredlist.add(s);
+					 }
+				   }
 
                     return String.format(String.join(",", filteredlist));
                 }
